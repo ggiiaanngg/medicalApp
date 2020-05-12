@@ -23,6 +23,7 @@ public class Doctor {
 	public static final String A_department="dept";
 	public static final String A_phone="phone";
 	public static final String A_spec="spec";
+	public static final String A_optional="optSpec";
 	public static final String A_email="email";
 	
 	
@@ -38,6 +39,10 @@ public class Doctor {
 	
 	@DAttr(name = A_spec,type = Type.String, optional = false)
 	private String spec;
+	
+	@DAttr(name = A_optional,type = Type.String, optional =false)
+	private String optSpec;
+	
 	@DAttr(name=A_department, type=Type.String, length = 20, optional = true)
 	@DAssoc(ascName="doctor-has-dept",role="doctor", ascType = AssocType.One2One, endType = AssocEndType.One, associate = @Associate(type=Department.class,cardMin=1,cardMax = 1))
 	private Department dept;
@@ -51,13 +56,13 @@ public class Doctor {
 	
 	@DOpt(type = DOpt.Type.ObjectFormConstructor)
 	@DOpt(type = DOpt.Type.RequiredConstructor)
-	public Doctor (@AttrRef("name") String name, @AttrRef("dept") Department dept, @AttrRef("phone") String phone, @AttrRef("spec") String spec, @AttrRef("email") String email) {
-		this(null, name,dept, phone, spec, email);
+	public Doctor (@AttrRef("name") String name, @AttrRef("dept") Department dept, @AttrRef("phone") String phone, @AttrRef("spec") String spec, @AttrRef("optSpec") String optSpec, @AttrRef("email") String email) {
+		this(null, name,dept, phone, spec, optSpec , email);
 	}
 	//shared constructor that invoked by other constructor
 	
 	 @DOpt(type=DOpt.Type.DataSourceConstructor)
-	  public Doctor(String id, String name, Department dept, String phone, String spec, String email) 
+	  public Doctor(String id, String name, Department dept, String phone, String spec, String email, String optSpec) 
 	  throws ConstraintViolationException {
 	    // generate an id
 	    this.id = nextID(id);
@@ -67,6 +72,7 @@ public class Doctor {
 	    this.dept = dept;
 	    this.phone = phone;
 	    this.spec = spec;
+	    this.optSpec = optSpec;
 	    this.email = email;
 	  }
 	
@@ -82,6 +88,14 @@ public class Doctor {
 	public void setSpec(String spec) {
 		this.spec = spec;
 	}
+	
+	public String getOptSpec() {
+		return optSpec;
+	}
+	public void setOptSpec(String optSpec) {
+		this.optSpec = optSpec ;
+	}
+	
 	public Department getDept() {
 		return dept;
 	}
